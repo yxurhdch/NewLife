@@ -1,9 +1,10 @@
 import asyncio
 
 from aiogram import Router, F, types
-from keyboard import make_row_keyboard
-from aiogram.fsm.context import FSMContext
 from aiogram.enums.parse_mode import ParseMode
+from aiogram.fsm.context import FSMContext
+
+from keyboard import make_row_keyboard
 
 rt = Router()
 
@@ -11,7 +12,7 @@ limits_buttons = [
     ("Базовый счёт", "base"),
     ("Расширенный счёт", "extended"),
     ("Максимальный счёт", "max"),
-    ("Назад", "back")
+    ("Назад", "lim_back")
 ]
 
 
@@ -24,7 +25,6 @@ async def limits_cmd(callback: types.CallbackQuery):
         text="Выбери тему, которая тебя интересует:",
         reply_markup=keyboard.as_markup()
     )
-    await callback.answer()
 
 
 @rt.callback_query(F.data == "base")
@@ -45,7 +45,7 @@ async def max_lim(callback: types.CallbackQuery):
     await callback.answer()
 
 
-@rt.callback_query(F.data == "back")
+@rt.callback_query(F.data == "lim_back")
 async def back_cmd(callback: types.CallbackQuery, state: FSMContext):
     from start import scripts_cmd
     await callback.message.answer(text="Вы вернулись назад.")

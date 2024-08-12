@@ -1,10 +1,11 @@
 
 from aiogram import Router, F, types
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from aiogram.filters import Command, StateFilter
+
+from handlers import loyality, limits, mcc
 from keyboard import make_row_keyboard
-from handlers import loyality, limits, mcc_codes
 
 rt = Router()
 
@@ -18,9 +19,8 @@ class ScriptFilter(StatesGroup):
 
 start_buttons = [
     ("Программа лояльности", "loyality"),
-    ("Закрытие карты", "close_card"),
     ("Лимиты", "limits"),
-    ("Коды МСС", "mcc_codes"),
+    ("Коды МСС", "mcc"),
 ]
 
 
@@ -57,8 +57,8 @@ async def limits_btn(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
 
 
-@rt.callback_query(ScriptFilter.choose_script, F.data == "mcc_codes")
+@rt.callback_query(ScriptFilter.choose_script, F.data == "mcc")
 async def mcc_codes_btn(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(ScriptFilter.choose_mcc_codes)
-    await mcc_codes.mcc_codes_cmd(callback)
+    await mcc.mcc_cmd(callback)
     await callback.answer()

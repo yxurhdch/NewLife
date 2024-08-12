@@ -7,37 +7,38 @@ from keyboard import make_row_keyboard
 
 rt = Router()
 
-loyality_buttons = [
-    ("Кешбек", "cashback"),
-    ("Звёзды", "stars"),
-    ("Назад", "loyal_back")
+
+mcc_buttons = [
+    ("Категории", "categories"),
+    ("Коды", "codes"),
+    ("Назад", "mcc_back")
 ]
 
 
 @rt.message()
-async def loyality_cmd(callback: types.CallbackQuery):
-    await callback.message.answer(text="Вы выбрали Программу Лояльности.")
+async def mcc_cmd(callback: types.CallbackQuery):
+    await callback.message.answer(text="Вы выбрали МСС Коды.")
     await asyncio.sleep(1)
-    keyboard = make_row_keyboard(loyality_buttons)
+    keyboard = make_row_keyboard(mcc_buttons)
     await callback.message.answer(
         text="Выбери тему, которая тебя интересует:",
         reply_markup=keyboard.as_markup()
     )
 
 
-@rt.callback_query(F.data == "cashback")
-async def cashback_cmd(callback: types.CallbackQuery):
-    await callback.message.answer(text="Вы выбрали Кешбек.")
+@rt.callback_query(F.data == "categories")
+async def categories_cmd(callback: types.CallbackQuery):
+    await callback.message.answer(text="Напишите название категории:")
     await callback.answer()
 
 
-@rt.callback_query(F.data == "stars")
-async def stars_cmd(callback: types.CallbackQuery):
-    await callback.message.answer(text="Вы выбрали Звёзды.")
+@rt.callback_query(F.data == "codes")
+async def codes_cmd(callback: types.CallbackQuery):
+    await callback.message.answer(text="Напишите код MCC:")
     await callback.answer()
 
 
-@rt.callback_query(F.data == "loyal_back")
+@rt.callback_query(F.data == "mcc_back")
 async def back_cmd(callback: types.CallbackQuery, state: FSMContext):
     from start import scripts_cmd
     await callback.message.answer(text="Вы вернулись назад.")

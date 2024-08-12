@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.filters import Command, StateFilter
 from keyboard import make_row_keyboard
-from handlers import loyality, limits
+from handlers import loyality, limits, mcc_codes
 
 rt = Router()
 
@@ -13,12 +13,14 @@ class ScriptFilter(StatesGroup):
     choose_script = State()
     choose_loyality = State()
     choose_limits = State()
+    choose_mcc_codes = State()
 
 
 start_buttons = [
     ("Программа лояльности", "loyality"),
     ("Закрытие карты", "close_card"),
     ("Лимиты", "limits"),
+    ("Коды МСС", "mcc_codes"),
 ]
 
 
@@ -36,7 +38,7 @@ async def scripts_cmd(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer(
         text="Выбери тему, которая тебя интересует:",
-        reply_markup=keyboard.as_markup()
+        reply_markup=keyboard.as_markup(),
     )
     await state.set_state(ScriptFilter.choose_script)
 
@@ -44,12 +46,19 @@ async def scripts_cmd(message: types.Message, state: FSMContext):
 @rt.callback_query(ScriptFilter.choose_script, F.data == "loyality")
 async def loyality_btn(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(ScriptFilter.choose_loyality)
-    await loyality.loyality_cmd(callback, state)
+    await loyality.loyality_cmd(callback)
     await callback.answer()
 
 
 @rt.callback_query(ScriptFilter.choose_script, F.data == "limits")
 async def limits_btn(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(ScriptFilter.choose_limits)
-    await limits.limits_cmd(callback, state)
+    await limits.limits_cmd(callback)
+    await callback.answer()
+
+
+@rt.callback_query(ScriptFilter.choose_script, F.data == "mcc_codes")
+async def mcc_codes_btn(callback: types.CallbackQuery, state: FSMContext):
+    await state.set_state(ScriptFilter.choose_mcc_codes)
+    await mcc_codes.mcc_codes_cmd(callback)
     await callback.answer()

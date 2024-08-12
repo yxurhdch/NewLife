@@ -5,7 +5,6 @@ from keyboard import make_row_keyboard
 from aiogram.fsm.context import FSMContext
 
 
-
 rt = Router()
 
 loyality_buttons = [
@@ -15,8 +14,8 @@ loyality_buttons = [
 ]
 
 
-@rt.message(F.message.text == "Программа Лояльности")
-async def loyality_cmd(callback: types.CallbackQuery, state: FSMContext):
+@rt.message()
+async def loyality_cmd(callback: types.CallbackQuery):
     await callback.message.answer(text="Вы выбрали Программу Лояльности.")
     await asyncio.sleep(1)
     keyboard = make_row_keyboard(loyality_buttons)
@@ -24,7 +23,7 @@ async def loyality_cmd(callback: types.CallbackQuery, state: FSMContext):
         text="Выбери тему, которая тебя интересует:",
         reply_markup=keyboard.as_markup()
     )
-    await state.set_state("choose_loyalty")
+    await callback.answer()
 
 
 @rt.callback_query(F.data == "cashback")

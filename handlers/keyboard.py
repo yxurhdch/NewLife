@@ -15,5 +15,5 @@ def make_row_keyboard(items: list[tuple[str, str]]) -> InlineKeyboardBuilder:
         button = InlineKeyboardButton(text=item, callback_data=value)
         builder.add(button)
 
-    builder.adjust(1)
+    builder.adjust(2)
     return builder

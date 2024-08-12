@@ -5,7 +5,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from config_reader import config
 from aiogram.fsm.storage.memory import MemoryStorage
-from handlers import start, loyality, limits
+from handlers import start, loyality, limits, mcc_codes
 
 
 async def main():
@@ -18,6 +18,7 @@ async def main():
         start.rt,
         loyality.rt,
         limits.rt,
+        mcc_codes.rt,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

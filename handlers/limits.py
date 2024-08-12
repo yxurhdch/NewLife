@@ -15,8 +15,8 @@ limits_buttons = [
 ]
 
 
-@rt.message(F.message.text == "Лимиты")
-async def limits_cmd(callback: types.CallbackQuery, state: FSMContext):
+@rt.message()
+async def limits_cmd(callback: types.CallbackQuery):
     await callback.message.answer(text="Вы выбрали Лимиты.")
     await asyncio.sleep(1)
     keyboard = make_row_keyboard(limits_buttons)
@@ -24,7 +24,7 @@ async def limits_cmd(callback: types.CallbackQuery, state: FSMContext):
         text="Выбери тему, которая тебя интересует:",
         reply_markup=keyboard.as_markup()
     )
-    await state.set_state("choose_limits")
+    await callback.answer()
 
 
 @rt.callback_query(F.data == "base")

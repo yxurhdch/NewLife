@@ -16,7 +16,7 @@ limits_buttons = [
 ]
 
 
-@rt.message(F.message.text == "Лимиты")
+@rt.message()
 async def limits_cmd(callback: types.CallbackQuery):
     await callback.message.answer(text="Вы выбрали Лимиты.")
     await asyncio.sleep(1)

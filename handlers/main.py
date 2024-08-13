@@ -3,8 +3,7 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-
-from config_reader import config
+from handlers.config_reader import config
 from handlers import start, loyality, limits, mcc
 
 

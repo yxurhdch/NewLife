@@ -15,6 +15,9 @@ class ScriptFilter(StatesGroup):
     choose_loyality = State()
     choose_limits = State()
     choose_mcc_codes = State()
+    codes_choose_category = State()
+    codes_choose_codes = State()
+
 
 
 start_buttons = [

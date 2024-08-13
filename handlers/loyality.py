@@ -14,7 +14,7 @@ loyality_buttons = [
 ]
 
 
-@rt.message()
+@rt.message(F.message.text == "Программа Лояльности")
 async def loyality_cmd(callback: types.CallbackQuery):
     await callback.message.answer(text="Вы выбрали Программу Лояльности.")
     await asyncio.sleep(1)
